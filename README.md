@@ -1,0 +1,1 @@
+# hadoop_mapr_wrapper_cookbook
