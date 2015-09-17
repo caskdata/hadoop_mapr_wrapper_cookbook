@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-# Invoke configure.sh with the -R flag
+# Invoke configure.sh with the -R flag, which refreshes MapR role configuration on this node
 hadoop_mapr_configure node['hadoop_mapr']['configure_sh']['cluster_name'] do
   refresh_roles true
   action :run
-  only_if "grep \"^#{node['hadoop_mapr']['configure_sh']['cluster_name']}\" /opt/mapr/conf/mapr-clusters.conf"
+  only_if "grep \"^#{node['hadoop_mapr']['configure_sh']['cluster_name']}\" #{node['hadoop_mapr']['install_dir']}/conf/mapr-clusters.conf"
 end

@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-# Ensure configure.sh script is installed
+# This recipe runs a full invocation of configure.sh, including disk-setup
+
+# Ensure configure.sh script is installed via the warden package
 include_recipe 'hadoop_mapr::warden'
 
 # Unmount data disks
@@ -82,7 +84,7 @@ hadoop_mapr_configure node['hadoop_mapr']['configure_sh']['cluster_name'] do
   action :run
 end
 
-# configure.sh blows away any custom yarn configs
+# Restore hadoop configs from attributes, which configure.sh may have overwritten
 include_recipe 'hadoop_mapr::hadoop_yarn' if (node['hadoop'].key?('yarn_site') && !node['hadoop']['yarn_site'].empty?) || (node['hadoop'].key?('yarn_site') && !node['hadoop']['mapred_site'].empty?)
 include_recipe 'hadoop_mapr::hbase' if node['hbase'].key?('hbase_site') && !node['hbase']['hbase_site'].empty?
 include_recipe 'hadoop_mapr::hive' if node['hive'].key?('hive_site') && !node['hive']['hive_site'].empty?
