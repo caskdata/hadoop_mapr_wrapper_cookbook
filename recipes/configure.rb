@@ -48,10 +48,10 @@ lwrp_args = []
 
 # Translate relevant hadoop attributes into configure.sh args (-RM, -HS)
 if node['hadoop'].key?('mapred_site') && node['hadoop']['mapred_site'].key?('mapreduce.jobhistory.address')
-    lwrp_args.push('-HS' => node['hadoop']['mapred_site']['mapreduce.jobhistory.address']
+  lwrp_args.push('-HS' => node['hadoop']['mapred_site']['mapreduce.jobhistory.address'])
 end
 if node['hadoop'].key?('yarn_site') && node['hadoop']['yarn_site'].key?('yarn.resourcemanager.hostname')
-  lwrp_args.push('-RM' => node['hadoop']['yarn_site']['yarn.resourcemanager.hostname']
+  lwrp_args.push('-RM' => node['hadoop']['yarn_site']['yarn.resourcemanager.hostname'])
 end
 
 node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
@@ -61,7 +61,7 @@ node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
     lwrp_args.push(k)
   else
     # pass a key/value, prevent duplicates
-    next if lwrp_args.map{|x| x.keys if x.is_a? Hash}.flatten.include?(k)
+    next if lwrp_args.map { |x| x.keys if x.is_a? Hash }.flatten.include?(k)
     lwrp_args.push(k => v)
   end
 end
