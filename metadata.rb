@@ -8,6 +8,9 @@ version          '0.1.0'
 
 depends 'hadoop_mapr'
 
+depends 'mysql', '< 5.0.0'
+depends 'database', '< 2.1.0'
+
 %w(amazon centos debian redhat scientific ubuntu).each do |os|
   supports os
 end
