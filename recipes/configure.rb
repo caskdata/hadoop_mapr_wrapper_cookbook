@@ -56,6 +56,20 @@ if node['hadoop'].key?('yarn_site') && node['hadoop']['yarn_site'].key?('yarn.re
   lwrp_args.push('-RM' => node['hadoop']['yarn_site']['yarn.resourcemanager.hostname'])
 end
 
+# Translate relevant hadoop_mapr attributes into configure.sh args (-u, -U, -g, -G)
+if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('username')
+  lwrp_args.push('-u' => node['hadoop_mapr']['mapr_user']['username'])
+end
+if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('uid')
+  lwrp_args.push('-U' => node['hadoop_mapr']['mapr_user']['uid'])
+end
+if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('group')
+  lwrp_args.push('-g' => node['hadoop_mapr']['mapr_user']['group'])
+end
+if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('gid')
+  lwrp_args.push('-G' => node['hadoop_mapr']['mapr_user']['gid'])
+end
+
 node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
   if v.nil?
     # pass a flag, prevent duplicates
