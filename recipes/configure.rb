@@ -56,6 +56,17 @@ if node['hadoop'].key?('yarn_site') && node['hadoop']['yarn_site'].key?('yarn.re
   lwrp_args.push('-RM' => node['hadoop']['yarn_site']['yarn.resourcemanager.hostname'])
 end
 
+# Set user/group attributes if hadoop_mapr cookbook created the mapr user
+if node['hadoop_mapr']['create_mapr_user'].to_s == 'true'
+  if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('username')
+    lwrp_args.push('-u' => node['hadoop_mapr']['mapr_user']['username'])
+  end
+  if node['hadoop_mapr'].key?('mapr_user') && node['hadoop_mapr']['mapr_user'].key?('group')
+    lwrp_args.push('-g' => node['hadoop_mapr']['mapr_user']['group'])
+  end
+end
+
+# Set any remaining provided args
 node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
   if v.nil?
     # pass a flag, prevent duplicates
