@@ -91,6 +91,7 @@ hadoop_mapr_configure node['hadoop_mapr']['configure_sh']['cluster_name'] do
   cldb_mh_list node['hadoop_mapr']['configure_sh']['cldb_mh_list']
   refresh_roles node['hadoop_mapr']['configure_sh']['refresh_roles']
   client_only_mode node['hadoop_mapr']['configure_sh']['client_only_mode']
+  no_autostart node['hadoop_mapr']['configure_sh']['no_autostart']
   args lwrp_args
   action :run
 end
