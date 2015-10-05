@@ -24,7 +24,9 @@ default['hadoop_mapr']['configure_sh']['cldb_mh_list'] = nil
 default['hadoop_mapr']['configure_sh']['zookeeper_list'] = node['fqdn']
 default['hadoop_mapr']['configure_sh']['refresh_roles'] = false
 default['hadoop_mapr']['configure_sh']['client_only_mode'] = false
+# do not autostart services by default
+default['hadoop_mapr']['configure_sh']['no_autostart'] = true
 # Add any additional attributes such as those for disk-setup here
 default['hadoop_mapr']['configure_sh']['args'] = {}
 # default['hadoop_mapr']['configure_sh']['args']['-D'] = '/dev/sdc'
-# default['hadoop_mapr']['configure_sh']['args']['-no-autostart'] = nil
+# default['hadoop_mapr']['configure_sh']['args']['--isvm'] = nil
