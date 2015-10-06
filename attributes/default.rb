@@ -30,3 +30,14 @@ default['hadoop_mapr']['configure_sh']['no_autostart'] = true
 default['hadoop_mapr']['configure_sh']['args'] = {}
 # default['hadoop_mapr']['configure_sh']['args']['-D'] = '/dev/sdc'
 # default['hadoop_mapr']['configure_sh']['args']['--isvm'] = nil
+
+# Memory for YARN
+unless node['hadoop']['yarn_site'].key?('yarn.nodemanager.resource.memory-mb')
+  mem = (node['memory']['total'].to_i / 1000)
+  if node['hadoop'].key?('yarn') && node['hadoop']['yarn'].key?('memory_percent')
+    pct = (node['hadoop']['yarn']['memory_percent'].to_f / 100)
+  else
+    pct = 0.50
+  end
+  default['hadoop']['yarn_site']['yarn.nodemanager.resource.memory-mb'] = (mem * pct).to_i
+end
