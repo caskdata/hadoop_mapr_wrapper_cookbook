@@ -3,20 +3,22 @@ require 'spec_helper'
 describe 'hadoop_mapr_wrapper::configure' do
   context 'on Centos 6.6' do
     let(:shellout) { double('shellout') }
-    # before { Mixlib::ShellOut.stub(:new).and_return(shellout, run_command: nil) }
     before { allow(Mixlib::ShellOut).to receive(:new).and_return(shellout, run_command: nil) }
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'centos', version: 6.6) do |node|
-        node.automatic['fqdn'] = 'testhost'
+        # LWRP direct attributes
         node.override['hadoop_mapr']['configure_sh']['cluster_name'] = 'test_cluster'
         node.override['hadoop_mapr']['configure_sh']['cldb_list'] = ['cldbhost']
         node.override['hadoop_mapr']['configure_sh']['zookeeper_list'] = ['zoohost']
+        # These get converted to LWRP args attribute
         node.override['hadoop_mapr']['mapr_user']['username'] = 'testuser'
         node.override['hadoop_mapr']['mapr_user']['group'] = 'testgroup'
         node.override['hadoop']['mapred_site']['mapreduce.jobhistory.address'] = 'hs_host'
         node.override['hadoop']['yarn_site']['yarn.resourcemanager.hostname'] = 'rm_host'
+        # Additional LWRP args
         node.override['hadoop_mapr']['configure_sh']['args']['-D'] = '/dev/sdc'
         node.override['hadoop_mapr']['configure_sh']['args']['-noval'] = nil
+        # Mock disk to unmount
         expect(shellout).to receive(:run_command).and_return(true)
         expect(shellout).to receive(:stdout).and_return('/dev/sdc on /mountpoint type ext4 (rw)')
       end.converge(described_recipe)
