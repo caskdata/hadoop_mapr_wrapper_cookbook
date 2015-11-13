@@ -25,8 +25,6 @@ describe 'hadoop_mapr_wrapper::configure' do
     end
 
     it 'includes warden recipe' do
-      # expect(shellout).to receive(:run_command).and_return(true)
-      # expect(shellout).to receive(:stdout).and_return('/dev/sdc on /mountpoint type ext4 (rw)')
       expect(chef_run).to include_recipe('hadoop_mapr::warden')
     end
 
