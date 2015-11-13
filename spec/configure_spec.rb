@@ -54,5 +54,11 @@ describe 'hadoop_mapr_wrapper::configure' do
 
       expect(chef_run).to run_hadoop_mapr_configure('test_cluster').with_args(expected_args)
     end
+
+    it 'includes configuration recipes' do
+      expect(chef_run).to include_recipe('hadoop_mapr::hadoop_yarn')
+      expect(chef_run).to include_recipe('hadoop_mapr::hbase')
+      expect(chef_run).to include_recipe('hadoop_mapr::hive')
+    end
   end
 end
