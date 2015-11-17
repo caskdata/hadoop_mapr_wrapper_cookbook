@@ -1,7 +1,5 @@
 source 'https://supermarket.chef.io'
 
-group :integration do
-  cookbook 'java', '~> 1.21'
-end
-
 metadata
+
+cookbook 'hadoop_mapr', git: 'https://github.com/caskdata/hadoop_mapr_cookbook.git', branch: 'develop'
