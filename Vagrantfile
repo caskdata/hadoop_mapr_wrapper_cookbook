@@ -185,5 +185,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # MapR will start up but severely limited by memory
-  config.vm.provision :shell, :inline => '/etc/init.d/mapr-zookeeper start && /etc/init.d/mapr-warden start'
+  # config.vm.provision :shell, :inline => '/etc/init.d/mapr-zookeeper start && /etc/init.d/mapr-warden start'
 end
