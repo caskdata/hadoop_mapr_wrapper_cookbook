@@ -34,7 +34,14 @@ There are no attributes specific to this cookbook, however we set many default a
 
 # Usage
 
-Include the relevant recipes in your run-list.
+Include the relevant [recipes](#recipes) in your run-list.
+
+# Recipes
+
+* `configure.rb` - Example of how to use the hadoop_mapr_configure LWRP to configure MapR nodes
+* `hive_metastore_db_init.rb` - Example of how to initialize a database for use with MapR Hive
+* `hive_metastore_init.rb` - Example of how to initialize HDFS directories for use with MapR Hive
+* `refresh_roles.rb` - Example of how to use the hadoop_mapr_configure LWRP to refresh the MapR role configuration
 
 # Author
 
