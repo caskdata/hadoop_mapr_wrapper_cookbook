@@ -21,6 +21,7 @@
 
 # Ensure configure.sh script is installed via the warden package
 include_recipe 'hadoop_mapr::warden'
+include_recipe 'hadoop_mapr_wrapper::kerberos_init'
 
 # Unmount data disks
 node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
@@ -44,6 +45,15 @@ node['hadoop_mapr']['configure_sh']['args'].each do |k, v|
     end
   end
 end
+
+=begin
+
+# Copy keys to server if Kerberos is enabled
+if !gen_keys?
+  #%w{cldb.key, maprserverticket, ssl_keystore, ssl_truststore}
+
+  end
+=end
 
 # Collect additional arguments for configure.sh
 lwrp_args = []

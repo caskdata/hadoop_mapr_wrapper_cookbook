@@ -10,7 +10,13 @@ depends 'hadoop_mapr'
 
 depends 'mysql', '< 5.0.0'
 depends 'database', '< 2.1.0'
+depends 'krb5', '>= 1.0.0'
+depends 'java', '~> 1.40'
 
-%w(amazon centos debian redhat scientific ubuntu).each do |os|
+%w(apt krb5_utils yum).each do |cb|
+  depends cb
+end
+
+%w(amazon centos debian redhat scientific ubuntu krb5_utils).each do |os|
   supports os
 end
