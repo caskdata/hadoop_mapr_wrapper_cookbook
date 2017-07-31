@@ -32,6 +32,9 @@ This cookbook may work on earlier versions, but these are the minimal tested ver
 
 There are no attributes specific to this cookbook, however we set many default attributes for the underlying cookbooks in order to have a reasonably configured MapR cluster.  Be sure to look at the attributes files and override as desired.
 
+Note: in order to initialize the Hive Metastore database, root credentials must be
+supplied.  Currently, this must be set in `node['mysql']['server_root_password']`
+
 # Usage
 
 Include the relevant [recipes](#recipes) in your run-list.
