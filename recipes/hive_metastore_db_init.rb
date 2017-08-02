@@ -82,13 +82,19 @@ if node['hive'].key?('hive_site') && node['hive']['hive_site'].key?('javax.jdo.o
       action :grant
     end
 
-    # import hive SQL via database cookbook LWRP
-    mysql_database 'import-hive-schema' do
-      connection mysql_connection_info
-      database_name db_name
-      sql lazy { ::File.open(Dir.glob("#{sql_dir}/mysql/hive-schema-*").sort_by! { |s| Gem::Version.new(s.split('/').last.gsub('hive-schema-', '').gsub('.mysql.sql', '')) }.last).read }
-      action :query
+    # import hive SQL via execute resource
+    # connect via 127.0.0.1 instead of localhost to avoid using an incorrect (default) socket file
+    execute 'mysql-import-hive-schema' do # ~FC009
+      command <<-EOF
+        mysql --batch -D#{db_name} -h 127.0.0.1 < $(ls -1 hive-schema-* | sort -n | tail -n 1)
+        EOF
+      sensitive true
+      user 'root'
+      action :run
+      cwd "#{sql_dir}/mysql"
+      environment('MYSQL_PWD' => node['mysql']['server_root_password'])
     end
+
 
     hive_uris.each do |hive_host|
       # database cookbook LWRP to create a user in "remote" instance
