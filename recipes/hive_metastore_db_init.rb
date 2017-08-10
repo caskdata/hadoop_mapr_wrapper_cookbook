@@ -84,9 +84,10 @@ if node['hive'].key?('hive_site') && node['hive']['hive_site'].key?('javax.jdo.o
 
     # import hive SQL via execute resource
     # connect via 127.0.0.1 instead of localhost to avoid using an incorrect (default) socket file
+    schema_file = Dir.glob("#{sql_dir}/mysql/hive-schema-*").sort_by! { |s| Gem::Version.new(s.split('/').last.gsub('hive-schema-', '').gsub('.mysql.sql', ''))}.last
     execute 'mysql-import-hive-schema' do # ~FC009
       command <<-EOF
-        mysql --batch -D#{db_name} -h 127.0.0.1 < $(ls -1 hive-schema-* | sort -n | tail -n 1)
+        mysql --batch -D#{db_name} -h 127.0.0.1 < #{schema_file}
         EOF
       sensitive true
       user 'root'
@@ -94,7 +95,6 @@ if node['hive'].key?('hive_site') && node['hive']['hive_site'].key?('javax.jdo.o
       cwd "#{sql_dir}/mysql"
       environment('MYSQL_PWD' => node['mysql']['server_root_password'])
     end
-
 
     hive_uris.each do |hive_host|
       # database cookbook LWRP to create a user in "remote" instance
